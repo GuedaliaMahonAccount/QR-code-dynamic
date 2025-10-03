@@ -21,8 +21,11 @@ app.post("/update", (req, res) => {
   }
 });
 
-function getPublicBase() {
-  return process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+function getPublicBase(req) {
+  // Sur Vercel: proto = https, host = <ton-deploy>.vercel.app ou ton domaine custom
+  const proto = (req.headers['x-forwarded-proto'] || 'http').split(',')[0].trim();
+  const host = req.headers.host;
+  return process.env.PUBLIC_BASE_URL || `${proto}://${host}`;
 }
 
 // Helper: créer un masque circulaire avec bordure
@@ -55,16 +58,12 @@ async function createCircularMask(size, borderWidth, borderColor, bgColor) {
   return mask;
 }
 
-// Version 1: Violet doux (comme ton logo)
+// Version : Violet doux (comme ton logo)
 app.get("/qr-violet", async (req, res) => {
   try {
-    const base = getPublicBase();
-    
+    const base = getPublicBase(req);   // <<--- passe req ici
     const qrBuffer = await QRCode.toBuffer(`${base}/redirect`, {
-      color: { 
-        dark: "#8B7EC8",  // Violet doux
-        light: "#FFFFFF" 
-      },
+      color: { dark: "#8B7EC8", light: "#FFFFFF" },
       errorCorrectionLevel: "H",
       margin: 3,
       scale: 15,
