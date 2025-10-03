@@ -43,7 +43,7 @@ async function generateAllVersions() {
     });
 
     const qr = await Jimp.read(qrBuffer);
-    const logo = await Jimp.read("logo.png");
+    const logo = await Jimp.read("public/logo.png");
 
     const logoSize = Math.floor(qr.bitmap.width * 0.32);
     logo.resize(logoSize, logoSize);
