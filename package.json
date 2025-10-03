@@ -1,0 +1,24 @@
+{
+  "name": "qr-dynamic",
+  "version": "1.0.0",
+  "description": "Dynamic QR code generator with colors and logo",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "gen:logo": "node qrcode-with-logo.js"
+  },
+  "keywords": [
+    "qr",
+    "qrcode",
+    "dynamic",
+    "logo"
+  ],
+  "author": "Guedalia Sebbah",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "jimp": "^0.22.0",
+    "qrcode": "^1.5.4"
+  }
+}
