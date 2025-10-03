@@ -1,5 +1,10 @@
 import QRCode from "qrcode";
 import Jimp from "jimp";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 function getPublicBase(req) {
   const proto = (req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
@@ -48,8 +53,9 @@ export default async function handler(req, res) {
 
     const qr = await Jimp.read(qrBuffer);
 
-    // Lis le logo depuis /public/logo.png
-    const logo = await Jimp.read("./logo.png");
+    // Lis le logo depuis le dossier api
+    const logoPath = path.join(__dirname, "logo.png");
+    const logo = await Jimp.read(logoPath);
 
     const logoSize = Math.floor(qr.bitmap.width * 0.32);
     logo.resize(logoSize, logoSize);
